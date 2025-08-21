@@ -38,7 +38,7 @@ body {
   padding: 20px 0;
   display: flex;
   justify-content: flex-end;
-  letter-spacing: 5px;      /* espaço entre os caracteres */
+  letter-spacing: 5px;      
   position: relative;
 }
 
@@ -61,6 +61,8 @@ body {
 .buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  /* grid-template-columns → define quantas colunas e o tamanho de cada uma.
+  repeat(4, 1fr) → é um atalho que significa: Crie 4 colunas; Cada coluna ocupa 1fr (fr = fração do espaço disponível) */
   gap: 15px;
 }
 
@@ -96,10 +98,13 @@ body {
 
 .btn:hover{
   transform: translateY(-1px);
+  /* transform é a propriedade que move, gira, aumenta ou deforma elementos (translateY significa mover no eixo Y (vertical)) */
   box-shadow:
     10px 10px 20px #181625,
     -4px -4px 8px #3a3550;
+    /* box-shadow cria sombras externas (uma mais forte embaixo e outra mais clara em cima)*/
   filter: brightness(1.02);
+  /* filter: brightness(); → deixa o botão um pouquinho mais claro */
 }
 
 /* active: afundado */
@@ -108,6 +113,7 @@ body {
   box-shadow:
     inset 6px 6px 12px #181625,
     inset -6px -6px 12px #3a3550;
+    /* box-shadow: inset => sombras internas em vez de externas, fazendo parecer que o botão foi afundado. */
 }
 
 .function {
