@@ -6,6 +6,9 @@ let currentOperation = '';
 let result = ''; 
 let justEvaluted = false; // flag para verificar se a última ação foi uma avaliação
 
+const opMap = { '×': '*', '÷': '/' };
+const termSplitRegex = /[+\-*/×÷]/;
+
 buttons.forEach(button => {
     button.addEventListener('click', () => { // escuta o clique do botão 
         const value = button.textContent.trim(); // pega o valor escrito do botão e remove espaços em branco
@@ -23,25 +26,32 @@ function handleInput(value, classList) {
             currentOperation = currentOperation.slice(0, -1);
         }
     } else if (classList.contains('operator') && !classList.contains('equal')) {
-        if (justEvaluted) justEvaluted = false; // se acabou de calcular, já começa do resultado atual
-        currentOperation += `${value}`;
-
+        const op = opMap[value] ?? value;
+        if (justEvaluted) justEvaluted = false;
+        currentOperation += op;
+        
     } else if (classList.contains('equal')) {
         try {
-            result = eval(currentOperation);
+            result = parseFloat(eval(currentOperation));
             currentOperation = justEvaluted ? result.toString() : currentOperation;  
+            justEvaluted = true; 
         } catch (error) {
             resultDisplay.textContent = 'Error';
             currentOperation = '';
         }
     } else {
+        if ( value === '.') {
+            const parts = currentOperation.split(termSplitRegex); 
+            const lastPart = parts[parts.length - 1];
+            if (lastPart.includes('.')) return; // se já tem um ponto, não adiciona outro
+        }
         if (justEvaluted) {
             // Se o último botão pressionado foi o igual, reinicia a operação
-            currentOperation = value;
+            currentOperation = result.toString() + value;
             result = '';
             justEvaluted = false; // reseta a flag
         } else {
-            currentOperation += value    
+            currentOperation += value;    
         }
     }
 
@@ -49,6 +59,6 @@ function handleInput(value, classList) {
 }
 
 function updateDisplay() {
-    operationDisplay.textContent = currentOperation;
+    operationDisplay.textContent = currentOperation || '0';
     resultDisplay.textContent = result;
 }
