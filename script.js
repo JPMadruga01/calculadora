@@ -44,6 +44,9 @@ function handleInput(value, classList) {
             const parts = currentOperation.split(termSplitRegex); 
             const lastPart = parts[parts.length - 1];
             if (lastPart.includes('.')) return; // se já tem um ponto, não adiciona outro
+            if (lastPart === '' || /[+\-*/]$/.test(currentOperation)) {
+                value = '0.'; 
+            } 
         }
         if (justEvaluted) {
             // Se o último botão pressionado foi o igual, reinicia a operação
